@@ -443,12 +443,12 @@ along with their specific mapping:
 
 [#zba,reftext=Address generation instructions]
 ==== Zba: Address generation
-
+[[norm:addr_gen]]
 The Zba instructions can be used to accelerate the generation of addresses that index into arrays of basic types (halfword, word, doubleword) using both unsigned word-sized and XLEN-sized indices: a shifted index is added to a base address.
 
-The shift and add instructions do a left shift of 1, 2, or 3 because these are commonly found in real-world code and because they can be implemented with a minimal amount of additional hardware beyond that of the simple adder. This avoids lengthening the critical path in implementations.
+[#norm:sl_shamt]#The shift and add instructions do a left shift of 1, 2, or 3# because these are commonly found in real-world code and because they can be implemented with a minimal amount of additional hardware beyond that of the simple adder. This avoids lengthening the critical path in implementations.
 
-While the shift and add instructions are limited to a maximum left shift of 3, the slli instruction (from the base ISA) can be used to perform similar shifts for indexing into arrays of wider elements. The slli.uw -- added in this extension -- can be used when the index is to be interpreted as an unsigned word.
+While the shift and add instructions are limited to a maximum left shift of 3, the slli instruction (from the base ISA) can be used to perform similar shifts for indexing into arrays of wider elements. [#norm:slli-uw_ind]#The slli.uw -- added in this extension -- can be used when the index is to be interpreted as an unsigned word.#
 
 The following instructions comprise the Zba extension:
 
@@ -590,7 +590,7 @@ commonly referred to as population count.
 |===
 
 ===== Integer minimum/maximum
-
+[[norm:minmax_op]]
 The integer minimum/maximum instructions are arithmetic R-type
 instructions that return the smaller/larger of two operands.
 
@@ -623,7 +623,7 @@ instructions that return the smaller/larger of two operands.
 |===
 
 ===== Sign extension and zero extension
-
+[[norm:zeroext_op]]
 These instructions perform the sign extension or zero extension of the least significant 8 bits or 16 bits of the source register.
 
 These instructions replace the generalized idioms `slli rd,rs,(XLEN-<size>) + srai` (for sign extension of 8-bit and 16-bit quantities) and `slli + srli` (for zero extension of 16-bit quantities).
@@ -652,7 +652,7 @@ These instructions replace the generalized idioms `slli rd,rs,(XLEN-<size>) + sr
 |===
 
 ===== Bitwise rotation
-
+[[norm:bitrot_op]]
 Bitwise rotation instructions are similar to the shift-logical operations from the base spec. However, where the shift-logical
 instructions shift in zeros, the rotate instructions shift in the bits that were shifted out of the other side of the value.
 Such operations are also referred to as ‘circular shifts’.
@@ -705,7 +705,7 @@ four-instruction sequence to achieve the same effect (neg; sll/srl; srl/sll; or)
 ===============================================================
 
 ===== OR Combine
-
+[[norm:orc-b_op]]
 *orc.b* sets the bits of each byte in the result _rd_ to all zeros if no bit within the respective byte of _rs_ is set, or to all ones if any bit within the respective byte of _rs_ is set.
 
 One use-case is string-processing functions, such as *strlen* and *strcpy*, which can use *orc.b* to test for the terminating zero byte by counting the set bits in leading non-zero bytes in a word.
@@ -724,7 +724,7 @@ One use-case is string-processing functions, such as *strlen* and *strcpy*, whic
 |===
 
 ===== Byte-reverse
-
+[[norm:rev8_op]]
 *rev8* reverses the byte-ordering of _rs_.
 
 [%header,cols="^1,^1,4,8"]
@@ -743,12 +743,12 @@ One use-case is string-processing functions, such as *strlen* and *strcpy*, whic
 
 [#zbc,reftext="Carry-less multiplication"]
 ==== Zbc: Carry-less multiplication
-
+[[norm:carryless_op]]
 Carry-less multiplication is the multiplication in the polynomial ring over GF(2).
 
-*clmul* produces the lower half of the carry-less product and *clmulh* produces the upper half of the 2&#x2715;XLEN carry-less product.
+[#norm:clmul]#*clmul* produces the lower half of the carry-less product# and [#norm:clmulh]#*clmulh* produces the upper half of the 2&#x2715;XLEN carry-less product.#
 
-*clmulr* produces bits 2&#x2715;XLEN−2:XLEN-1 of the 2&#x2715;XLEN carry-less product.
+[#norm:clmulr]#*clmulr* produces bits 2&#x2715;XLEN−2:XLEN-1 of the 2&#x2715;XLEN carry-less product.#
 
 [%header,cols="^1,^1,4,8"]
 |===
@@ -776,7 +776,7 @@ Carry-less multiplication is the multiplication in the polynomial ring over GF(2
 
 [#zbs,reftext="Single-bit instructions"]
 ==== Zbs: Single-bit instructions
-
+[[norm:singbit_op]]
 The single-bit instructions provide a mechanism to set, clear, invert, or extract
 a single bit in a register. The bit is specified by its index.
 
@@ -955,13 +955,13 @@ efficiently implement the GHASH operation, which is part of this workload.
 
 [[zbkx,Crossbar permutations]]
 ==== Zbkx: Crossbar permutations
-
+[[norm:perm_lookup]]
 These instructions implement a "lookup table" for 4 and 8 bit elements
 inside the general purpose registers.
-_rs1_ is used as a vector of N-bit words, and _rs2_ as a vector of N-bit
+[#norm:perm_op]#_rs1_ is used as a vector of N-bit words, and _rs2_ as a vector of N-bit
 indices into _rs1_.
 Elements in _rs1_ are replaced by the indexed element in _rs2_, or zero
-if the index into _rs2_ is out of bounds.
+if the index into _rs2_ is out of bounds.#
 
 These instructions are useful for expressing N-bit to N-bit boolean
 operations, and implementing cryptographic code with secret
